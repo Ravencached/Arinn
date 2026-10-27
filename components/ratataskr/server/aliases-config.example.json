@@ -1,0 +1,18 @@
+{
+  "enabled": false,
+  "domain": "example.test",
+  "owners": [],
+  "administrators": [],
+  "reserved": [
+    "postmaster",
+    "abuse",
+    "root",
+    "hostmaster",
+    "webmaster",
+    "security"
+  ],
+  "setupUrl": "https://mail.example.test/account-setup.php",
+  "recipientVerified": false,
+  "recipientMode": "",
+  "recipientHeader": ""
+}

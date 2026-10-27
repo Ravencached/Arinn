@@ -1,0 +1,145 @@
+/* Ratataskr initial dark theme. SnappyMail 2.38.2; no core modifications.
+   Shared Ratataskr palette for the locally hosted webmail interface.
+   Message bodies retain SnappyMail's own rendering and color controls. */
+:root {
+  color-scheme: dark;
+  --main-color: #e3e5dc;
+  --main-bg-color: #191c1a;
+  --main-bg-image: none;
+  --main-bg-size: auto;
+  --main-bg-repeat: no-repeat;
+  --main-font-size: 15px;
+  --fontSans: "Segoe UI", system-ui, sans-serif;
+  --link-color: #c0d0b9;
+  --border-color: #414941;
+  --border-radius: 8px;
+  --hr-color: #414941;
+  --panel-bg-clr: #242825;
+  --warning-clr: #e5bb83;
+  --warning-bg-clr: #342b20;
+  --warning-border-clr: #b5a078;
+  --error-clr: #f4b7a3;
+  --error-bg-clr: #38251f;
+  --error-border-clr: #b97860;
+  --info-clr: #c0d0b9;
+  --info-bg-clr: #292e2a;
+  --info-border-clr: #718775;
+  --loading-color: #e3e5dc;
+  --loading-text-shadow: none;
+  --login-color: #e3e5dc;
+  --login-bg-color: #242825;
+  --login-box-shadow: 0 12px 40px #0005;
+  --login-border: 1px solid #414941;
+  --login-border-radius: 12px;
+  --spinner-color: #c0d0b9;
+  --dropdown-menu-color: #e3e5dc;
+  --dropdown-menu-bg-color: #292e2a;
+  --dropdown-menu-hover-bg-color: #3c493e;
+  --dropdown-menu-hover-color: #f0f5eb;
+  --dropdown-menu-disabled-color: #a3b2a5;
+  --dropdown-menu-border-clr: #414941;
+  --folders-color: #e3e5dc;
+  --folders-disabled-color: #a3b2a5;
+  --folders-selected-color: #f0f5eb;
+  --folders-selected-bg-color: #394a3c;
+  --folders-focused-color: #f0f5eb;
+  --folders-focused-bg-color: #42604a;
+  --folders-hover-color: #f0f5eb;
+  --folders-hover-bg-color: #333b34;
+  --folders-drop-color: #f0f5eb;
+  --folders-drop-bg-color: #42604a;
+  --unread-count-color: #f0f5eb;
+  --unread-count-bg-color: #42604a;
+  --settings-menu-color: #e3e5dc;
+  --settings-menu-selected-color: #f0f5eb;
+  --settings-menu-selected-bg-color: #394a3c;
+  --settings-menu-hover-color: #f0f5eb;
+  --settings-menu-hover-bg-color: #333b34;
+  --message-list-toolbar-bg-color: #292e2a;
+  --message-header-bg-clr: #292e2a;
+  --dialog-clr: #e3e5dc;
+  --dialog-bg-clr: #242825;
+  --dialog-border-clr: #414941;
+  --dialog-border-radius: 12px;
+  --btn-clr: #f0f5eb;
+  --btn-bg-clr: #333b34;
+  --btn-border-clr: #718775;
+  --btn-border-radius: 8px;
+  --btn-success-bg-clr: #42604a;
+  --btn-danger-bg-clr: #803b29;
+  --input-clr: #e3e5dc;
+  --input-bg-clr: #292e2a;
+  --input-border-clr: #718775;
+  --input-border-radius: 8px;
+  --input-focus-border-clr: #b5a078;
+  --tr-hover-bg-clr: #333b34;
+  --tr-odd-bg-clr: #292e2a;
+  --tab-active-bg-clr: #242825;
+  --tab-hover-border-clr: #b5a078;
+  --smDialogShrink: 20px;
+  --smMainShadow: 0 2px 12px #0004;
+}
+
+/* Restrict selector overrides to application controls, not email HTML. */
+#rl-app button:focus-visible,
+#rl-app input:focus-visible,
+#rl-app select:focus-visible,
+#rl-app textarea:focus-visible {
+  outline: 2px solid #b5a078;
+  outline-offset: 2px;
+}
+
+/* Keep login description text accessible; add the existing mark above it. */
+.LoginView .descWrapper::before {
+  content: "";
+  display: block;
+  width: min(240px, 70vw);
+  height: 120px;
+  margin: 0 auto 16px;
+  background: #f6f4ee url("images/logo-repaired.png") center / contain no-repeat;
+  border-radius: 12px;
+}
+
+/* Login-only refinements; do not reach into rendered email documents. */
+#rl-app .LoginView input::placeholder {
+  color: #a3b2a5;
+  opacity: 1;
+}
+#rl-app .LoginView input,
+#rl-app .LoginView .buttonLogin {
+  min-height: 44px;
+  font-size: 1rem;
+}
+#rl-app .LoginView .language-button,
+#rl-app .LoginView .e-checkbox {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+#rl-app .LoginView .language-button {
+  min-width: 44px;
+  justify-content: center;
+}
+#rl-app .LoginView a:focus-visible,
+#rl-app .LoginView [tabindex]:focus-visible {
+  outline: 2px solid #b5a078;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+@media (max-width: 480px) {
+  #rl-app .LoginView form {
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    margin-inline: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #rl-app .LoginView form.errorAnimated {
+    animation: none;
+  }
+  #rl-app .LoginView input,
+  #rl-app .LoginView button,
+  #rl-app .LoginView a {
+    transition: none;
+  }
+}

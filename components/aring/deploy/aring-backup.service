@@ -1,0 +1,16 @@
+[Unit]
+Description=Encrypted Áring calendar backup
+
+[Service]
+Type=oneshot
+User=aring
+Group=aring
+WorkingDirectory=/opt/aring/current
+ExecStart=/opt/aring/current/deploy/backup.sh
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/backups/aring /var/lib/aring
+ReadOnlyPaths=/etc/aring

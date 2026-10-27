@@ -1,0 +1,30 @@
+[Unit]
+Description=Áring calendar and reminders
+After=network.target
+
+[Service]
+Type=simple
+User=aring
+Group=aring
+WorkingDirectory=/opt/aring/current
+Environment=NODE_ENV=production
+Environment=ARING_PORT=4387
+Environment=ARING_ORIGIN=http://127.0.0.1:4387
+EnvironmentFile=-/etc/aring/service.env
+Environment=ARING_DB=/var/lib/aring/aring.sqlite
+ExecStart=/usr/bin/node /opt/aring/current/server/main.mjs
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/aring
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+MemoryMax=384M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

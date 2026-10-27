@@ -1,0 +1,10 @@
+{
+  "checked_date": "2026-10-26",
+  "registry": "registry-1.docker.io",
+  "scope": "Pinned base manifests; derived Docker builds apply current distribution security packages and policy checks. Disposable role builds/startup tested; not a comprehensive image/SBOM vulnerability scan.",
+  "images": {
+    "node:24.22.1-bookworm-slim": "node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205",
+    "drakkan/sftpgo:v2.7.6": "drakkan/sftpgo:v2.7.6@sha256:1edd28d80de2a008863fbfc58c8ff7db47b1b410bae48d4e6076192337809b11",
+    "debian:trixie-slim": "debian:trixie-slim@sha256:62bd423aeee912639ca8ee681c2b762cb3e25137e0a92b20be455898a9f034ad"
+  }
+}

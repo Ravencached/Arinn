@@ -1,0 +1,39 @@
+<div class="rt-alias-settings">
+  <h2>Aliases &amp; folders</h2>
+  <p>Create another address for your mailbox. Your aliases and folders stay separate from other accounts.</p>
+  <p role="status" aria-live="polite" data-bind="text: message"></p>
+  <p data-bind="visible: !enabled()">The administrator needs to enable the provider connection before aliases can be created.</p>
+  <form data-bind="submit: create">
+    <label for="rt-alias-local">New address at example.test</label>
+    <input id="rt-alias-local" autocomplete="off" maxlength="64" required data-bind="textInput: local, disable: busy() || !enabled()" placeholder="dev">
+    <button type="submit" data-bind="disable: busy() || !enabled()">Create receiving alias</button>
+  </form>
+  <p data-bind="visible: !folderReady()">Folder sorting will become available after the original-recipient delivery test. New aliases deliver to Inbox.</p>
+  <div data-bind="foreach: aliases">
+    <section class="rt-alias-card">
+      <h3 data-bind="text: address"></h3>
+      <p>Receiving: <strong data-bind="text: receiving"></strong></p>
+      <p>Sending: <span data-bind="text: sending"></span>. Configure approved sending addresses under Settings → Identities.</p>
+      <p>Folder rule: <span data-bind="text: filter"></span></p>
+      <label>Destination folder <select data-bind="options: $parent.folders, value: chosenFolder, disable: $parent.busy() || !$parent.folderReady()"></select></label>
+      <button type="button" data-bind="click: () => $parent.saveFolder($data), disable: $parent.busy() || !$parent.folderReady()">Save folder rule</button>
+    </section>
+  </div>
+  <section data-bind="visible: admin" class="rt-alias-card">
+    <h2>Invite a new mailbox</h2>
+    <p>New users choose their own password. Site access must also be allowed in Cloudflare Access.</p>
+    <form data-bind="submit: invite">
+      <label for="rt-invite-local">Mailbox name at example.test</label>
+      <input id="rt-invite-local" maxlength="64" required autocomplete="off" data-bind="textInput: inviteLocal, disable: busy() || !enabled()">
+      <label for="rt-invite-recovery">Independent recovery email</label>
+      <input id="rt-invite-recovery" type="email" required autocomplete="off" data-bind="textInput: recovery, disable: busy() || !enabled()">
+      <button type="submit" data-bind="disable: busy() || !enabled()">Create private invitation</button>
+    </form>
+    <label data-bind="visible: inviteUrl">Invitation link (shown once)<input readonly data-bind="value: inviteUrl" aria-label="Private invitation link"></label>
+    <p>Expired or revoked invitations can be replaced by creating a new invitation for the same address.</p>
+    <div data-bind="foreach: invitations">
+      <p><strong data-bind="text: address"></strong> — <span data-bind="text: status"></span>
+      <button type="button" data-bind="visible: status === 'invited', click: () => $parent.revoke($data), disable: $parent.busy()">Revoke invitation</button></p>
+    </div>
+  </section>
+</div>

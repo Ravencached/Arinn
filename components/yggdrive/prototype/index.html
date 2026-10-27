@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203f35">
+  <meta name="description" content="YggShare: a welcoming home for your files. Local interaction design preview.">
+  <title>YggShare · A little closer to home</title>
+  <link rel="icon" href="ygg-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="preview-bar"><span><b>YggShare</b> / Design preview · Sample files only · Not connected to YGG</span><label>Preview screen <select id="screen-select"><option value="home">Your drive</option><option value="login">Sign in</option><option value="verify">Verification</option><option value="unavailable">Unavailable</option></select></label></div>
+  <div id="app"></div>
+  <dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="file-input" multiple hidden>
+  <noscript>This local design preview needs JavaScript. No files or credentials are sent anywhere.</noscript>
+</body>
+</html>

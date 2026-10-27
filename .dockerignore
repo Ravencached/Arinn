@@ -1,0 +1,12 @@
+.git
+**/node_modules
+**/runtime
+**/data
+**/secrets
+**/.env*
+**/test-runs
+**/downloads
+**/.wrangler
+**/.venv
+**/dist
+**/target

@@ -1,0 +1,97 @@
+name: Arinn checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: arinn-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source:
+    name: Source and policy checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - run: python scripts/review_export.py
+      - run: python scripts/review_history.py
+      - run: python scripts/check_licenses.py
+      - run: python scripts/check_docs.py
+      - run: python -m unittest discover -s tests -v
+      - name: Shell syntax
+        run: |
+          bash -n suite
+          find components/ratataskr/server -name '*.sh' -print0 | xargs -0 -n1 bash -n
+          bash -n deploy/verify-system-trust.sh
+
+  calendar:
+    name: Calendar and browser source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.22.1'
+      - name: Install locked calendar dependencies
+        working-directory: components/aring
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Calendar tests and web build
+        working-directory: components/aring
+        run: |
+          npm test
+          npm run build
+      - run: node components/ratataskr/validate.mjs
+      - name: JavaScript syntax
+        run: |
+          find components/ratataskr -name '*.js' -print0 | xargs -0 -n1 node --check
+
+  containers:
+    name: Disposable home and storage integration
+    needs: source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Build and exercise separate roles
+        run: python scripts/test_roles_docker.py --workdir "$RUNNER_TEMP/arinn-sandbox"
+      - name: PHP syntax and mail boundary tests
+        run: |
+          docker run --rm --network none --read-only --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,size=64m,mode=1777 \
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/src,readonly" \
+            --workdir /src/components/ratataskr \
+            selfhost-suite-mail:local sh -ec '
+              find plugins portal server tests -name "*.php" -print0 | xargs -0 -n1 php -l
+              php tests/account-tools.php
+              php tests/folder-response.php
+              php tests/security-boundaries.php
+              php tests/user-origin.php
+            '
+      # Sandbox diagnostics can contain synthetic bootstrap credentials. They
+      # are intentionally not uploaded as public Actions artifacts.

@@ -1,0 +1,24 @@
+Selfhost Suite
+Copyright (c) 2026 Selfhost Suite contributors, for original contributions.
+
+Original code: AGPL-3.0-or-later. Original documentation and project artwork:
+CC-BY-4.0, to the extent rights are held. See LICENSING.md and REUSE.toml.
+
+Capacitor Android scaffold/template portions:
+Copyright (c) 2017-present Drifty Co.
+MIT license. Full upstream notice: third-party-notices/Capacitor-MIT.txt.
+The per-file map identifies these template files. Original project changes
+include application identifiers, build/security settings, project integration,
+and MainActivity registration/lifecycle integration, made in 2026.
+
+SnappyMail 2.38.2: upstream PHP webmail implementation, downloaded during builds.
+https://github.com/the-djmaze/snappymail/tree/v2.38.2
+GNU Affero General Public License v3, under the upstream project's own notices.
+
+SFTPGo 2.7.6: upstream file service and web interface, obtained as a base image.
+https://github.com/drakkan/sftpgo/tree/v2.7.6
+GNU Affero General Public License v3, under the upstream project's own notices.
+
+Npm, Android and operating-system dependencies retain their own licenses and
+notices. See docs/THIRD-PARTY.md. This notice is not an exhaustive binary SBOM.
+These integrations do not imply endorsement by the upstream projects/providers.

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Áring</string>
+    <string name="title_activity_main">Áring</string>
+    <string name="package_name">com.example.aring</string>
+    <string name="custom_url_scheme">com.example.aring</string>
+</resources>

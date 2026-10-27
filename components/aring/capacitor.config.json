@@ -1,0 +1,6 @@
+{
+  "appId": "com.example.aring", "appName": "Áring", "webDir": "dist",
+  "server": {"androidScheme": "https"},
+  "android": {"allowMixedContent": false},
+  "plugins": {"CapacitorHttp": {"enabled": false}}
+}

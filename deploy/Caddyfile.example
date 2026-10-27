@@ -1,0 +1,36 @@
+# Native host Caddy example. Configure your own names, trusted TLS, firewall,
+# and DNS. Proxy only client ports; never proxy the drive administrator port.
+# Keep upstreams on the host's loopback interface.
+{
+    admin off
+}
+
+calendar.example.test {
+    header {
+        Strict-Transport-Security "max-age=15552000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+    reverse_proxy 127.0.0.1:4387 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+}
+
+drive.example.test {
+    header {
+        Strict-Transport-Security "max-age=15552000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        Cache-Control "private, no-store"
+    }
+    @admin path /web/admin /web/admin/* /api/v2/*
+    respond @admin 404
+    redir / /web/client 302
+    reverse_proxy 127.0.0.1:8080 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+}

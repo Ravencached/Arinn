@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 3
+  - package-ecosystem: npm
+    directory: /components/aring
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 5
+# Docker pins and native OS/security package floors require maintainer review;
+# this configuration does not claim those updates are automated.

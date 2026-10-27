@@ -1,0 +1,84 @@
+name: selfhost-suite
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  aring:
+    profiles: [aring]
+    build:
+      context: .
+      dockerfile: components/aring/Dockerfile
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205}
+    environment:
+      NODE_ENV: production
+      ARING_BIND: 0.0.0.0
+      ARING_PORT: "4387"
+      ARING_DB: /data/aring.sqlite
+      ARING_ORIGIN: ${ARING_ORIGIN:-http://127.0.0.1:4387}
+      ARING_TRUST_PROXY: "false"
+    ports:
+      - "127.0.0.1:${SUITE_CALENDAR_PORT:-4387}:4387"
+    volumes:
+      - aring-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 384m
+    cpus: 1.0
+    init: true
+    restart: unless-stopped
+    logging: *logging
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:4387/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  yggdrive:
+    profiles: [yggdrive]
+    build:
+      context: .
+      dockerfile: components/yggdrive/Dockerfile
+      args:
+        SFTPGO_IMAGE: ${SFTPGO_IMAGE:-drakkan/sftpgo:v2.7.6@sha256:1edd28d80de2a008863fbfc58c8ff7db47b1b410bae48d4e6076192337809b11}
+    command: [sftpgo, serve, --config-dir, /etc/suite]
+    user: "1000:1000"
+    environment:
+      SFTPGO_LOG_FILE_PATH: ""
+    ports:
+      - "127.0.0.1:${SUITE_DRIVE_PORT:-8080}:8080"
+      - "127.0.0.1:${SUITE_DRIVE_ADMIN_PORT:-8081}:8081"
+    volumes:
+      - type: bind
+        source: ./runtime/yggdrive
+        target: /etc/suite
+        read_only: true
+        bind:
+          create_host_path: false
+      - yggdrive-state:/var/lib/sftpgo
+      - yggdrive-content:/srv/sftpgo
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 1.0
+    init: true
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  aring-data:
+  yggdrive-state:
+  yggdrive-content:

@@ -1,0 +1,230 @@
+/* Light overrides use supported theme tokens; email body styles stay untouched. */
+:root[data-ratataskr-mode=light] {
+  color-scheme: light;
+  --main-color:#173d34; --main-bg-color:#f4eddf;
+  --link-color:#245943; --border-color:#d3cbbb; --hr-color:#d3cbbb;
+  --panel-bg-clr:#faf4e8; --loading-color:#173d34;
+  --login-color:#173d34; --login-bg-color:#faf4e8;
+  --login-border:1px solid #d3cbbb; --login-box-shadow:0 12px 40px #173d3412;
+  --spinner-color:#245943;
+  --dropdown-menu-color:#173d34; --dropdown-menu-bg-color:#faf4e8;
+  --dropdown-menu-hover-bg-color:#e4e7d8; --dropdown-menu-hover-color:#173d34;
+  --dropdown-menu-disabled-color:#5c7065; --dropdown-menu-border-clr:#d3cbbb;
+  --folders-color:#173d34; --folders-disabled-color:#5c7065;
+  --folders-selected-color:#faf4e8; --folders-selected-bg-color:#245943;
+  --folders-focused-color:#faf4e8; --folders-focused-bg-color:#245943;
+  --folders-hover-color:#173d34; --folders-hover-bg-color:#e4e7d8;
+  --unread-count-color:#faf4e8; --unread-count-bg-color:#245943;
+  --settings-menu-color:#173d34; --settings-menu-selected-color:#173d34;
+  --settings-menu-selected-bg-color:#e4e7d8;
+  --settings-menu-hover-color:#173d34; --settings-menu-hover-bg-color:#e4e7d8;
+  --message-list-toolbar-bg-color:#eee5d5; --message-header-bg-clr:#eee5d5;
+  --dialog-clr:#173d34; --dialog-bg-clr:#faf4e8; --dialog-border-clr:#d3cbbb;
+  --btn-clr:#173d34; --btn-bg-clr:#ede6d7; --btn-border-clr:#879b88;
+  --btn-success-bg-clr:#d6e4d4; --btn-danger-bg-clr:#f4d5cb;
+  --input-clr:#173d34; --input-bg-clr:#faf4e8; --input-border-clr:#879b88;
+  --input-focus-border-clr:#245943;
+  --tr-hover-bg-clr:#e4e7d8; --tr-odd-bg-clr:#f1eada;
+  --tab-active-bg-clr:#faf4e8; --tab-hover-border-clr:#245943;
+  --error-clr:#792f21; --error-bg-clr:#f8e9e2; --error-border-clr:#b97860;
+  --warning-clr:#604421; --warning-bg-clr:#f7eedc; --warning-border-clr:#b5a078;
+  --info-clr:#245943; --info-bg-clr:#e7eee1; --info-border-clr:#879b88;
+  --smMainShadow:0 2px 12px #173d3412;
+}
+.rt-brand {display:grid; justify-items:center; gap:12px; padding:18px 12px 20px;}
+.rt-brand img {width:min(160px,85%); height:auto; background:#f4eddf; border-radius:12px; padding:8px; box-sizing:border-box;}
+#V-MailFolderList .b-footer::before {content:""; display:block; width:90%; aspect-ratio:360 / 60; margin:0 auto 8px; background:url('/themes/ratataskr/images/knotwork-divider-clean.svg') center/contain no-repeat; opacity:.65;}
+.rt-appearance {display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; font-size:13px;}
+.rt-appearance select {min-height:36px; width:auto;}
+/* Decoration stays in shell/empty-state elements, never .mail-body. */
+#V-MailMessageView {position:relative; isolation:isolate;}
+#V-MailMessageView .messageView::after {
+  content:""; position:absolute; pointer-events:none; z-index:1;
+  width:min(340px,45vw); height:min(340px,45vw); right:16px; bottom:16px;
+  background-color:var(--main-color); opacity:.055;
+  -webkit-mask:url('/themes/ratataskr/images/runework.png') center/contain no-repeat;
+  mask:url('/themes/ratataskr/images/runework.png') center/contain no-repeat;
+}
+#V-MailMessageView .b-message-view-desc:not(.error) {
+  position:relative; overflow:hidden;
+  padding:clamp(24px,12vh,160px) 24px 80px; box-sizing:border-box; color:var(--main-color); font-size:1rem;
+  background:url('/themes/ratataskr/images/knotwork-divider-clean.svg') center bottom 24px/min(320px,80%) auto no-repeat;
+}
+#V-MailMessageView .b-message-view-desc:not(.error)::before,
+#V-MailMessageList .listEmptyMessage::before {
+  content:""; display:block; width:min(300px,80%); height:220px; margin:0 auto 24px;
+  background:url('/themes/ratataskr/images/squirrel-restful.png') center/contain no-repeat;
+}
+
+#V-MailMessageList .listEmptyMessage {padding:24px; color:var(--main-color); font-size:1rem;}
+@media(max-height:650px) {
+  #V-MailMessageView .b-message-view-desc:not(.error)::before,
+  #V-MailMessageList .listEmptyMessage::before {height:130px; margin-bottom:12px;}
+}
+#V-Login > .rt-appearance {margin:16px auto;}
+#V-MailFolderList .b-toolbar {height:auto;}
+#V-MailFolderList .buttonCompose {min-height:40px; display:inline-flex; align-items:center; gap:8px; margin:0 10px 12px;}
+#V-MailFolderList .b-folders-system a {min-height:40px; box-sizing:border-box; padding-block:3px; border-radius:8px; margin:2px 8px;}
+#V-MailMessageList .messageListItem {min-height:64px; align-items:center; font-size:1rem;}
+#V-MailMessageList .messageListItem.unseen {background:var(--folders-hover-bg-color); border-left-color:#b5a078;}
+#V-MailMessageList .messageListItem.selected {background:var(--folders-selected-bg-color); color:var(--folders-selected-color); border-left-color:var(--input-focus-border-clr);}
+#V-MailMessageList .messageListItem.checked {background:var(--info-bg-clr); border-left-color:var(--info-border-clr);}
+#V-MailMessageList .messageListItem time {font-size:.85rem; opacity:1;}
+#V-MailMessageList .inputSearch {min-height:40px;}
+#V-MailMessageList .inputSearch::placeholder {color:var(--main-color); opacity:.75;}
+#V-MailMessageList .btn-toolbar .btn,
+#V-MailMessageView .btn-toolbar .btn {min-width:36px; min-height:36px; box-sizing:border-box;}
+#V-MailMessageView .subject {font-size:1.4rem; line-height:1.3;}
+#V-SettingsPane .control-group {margin-bottom:20px;}
+#V-SettingsPane select,#V-SettingsPane input:not([type=checkbox]) {min-height:36px;}
+#V-PopupsCompose .btn {min-height:36px; box-sizing:border-box;}
+#V-MailFolderList a:focus-visible,#V-MailMessageList a:focus-visible,
+#V-MailMessageView a:focus-visible,#V-SettingsMenu a:focus-visible,
+#V-PopupsCompose a:focus-visible,.rt-appearance select:focus-visible {
+  outline:2px solid var(--input-focus-border-clr); outline-offset:2px;
+}
+:root[data-ratataskr-mode=light] #rl-app .LoginView input::placeholder {color:#5c7065;}
+@media(max-width:600px) {
+  #V-MailMessageList .btn-toolbar .btn,#V-PopupsCompose .btn {min-width:44px; min-height:44px;}
+  #V-SettingsPane .control-group {max-width:100%; box-sizing:border-box;}
+  #V-SettingsPane .controls {margin-inline:0; max-width:100%;}
+  #V-SettingsPane select,#V-SettingsPane textarea {max-width:100%; box-sizing:border-box;}
+  .rt-brand {padding:8px;}
+  .rt-brand img {width:120px;}
+}
+
+/* Native inbox/unread markers select the alert mascot; no message content inspection. */
+:root[data-ratataskr-inbox-unread="true"] #V-MailMessageView .b-message-view-desc:not(.error)::before {
+  background-image:url('/themes/ratataskr/images/squirrel-reader.png');
+}
+:root[data-ratataskr-mode=light] .rt-appearance {color:var(--main-color);}
+/* Keep navigation inside the viewport, with a scrollable folder region. */
+#rl-left {padding:20px 24px max(48px,env(safe-area-inset-bottom)); box-sizing:border-box;}
+#V-MailFolderList {height:100%; display:flex; flex-direction:column; min-height:0;}
+#V-MailFolderList .b-toolbar {flex:0 0 auto; padding-inline:8px; color:var(--main-color);}
+#V-MailFolderList .b-folders {flex:1 1 auto; min-height:0; height:auto; overflow:auto;}
+#V-MailFolderList .b-footer {flex:0 0 auto; padding:10px 12px;}
+#V-MailFolderList .buttonCompose {
+  color:var(--btn-clr); background:var(--btn-success-bg-clr);
+  border:1px solid var(--btn-border-clr); min-height:44px;
+  padding:0 16px; border-radius:10px; font-weight:600;
+}
+#V-MailFolderList .buttonCompose:hover {filter:brightness(.95);}
+#V-MailFolderList .buttonCompose:focus-visible {outline:2px solid var(--input-focus-border-clr); outline-offset:3px;}
+@media(max-height:650px) {
+  .rt-brand {padding-block:4px; gap:6px;}
+  .rt-brand img {width:100px;}
+}
+/* Explicit compose colors override SnappyMail's white btn-success text. */
+#rl-app #V-MailFolderList a.btn.buttonCompose {
+  color:#faf4e8; background-color:#245943; border-color:#245943;
+  text-shadow:none; box-shadow:0 2px 4px #0002;
+}
+#rl-app #V-MailFolderList a.btn.buttonCompose > span,
+#rl-app #V-MailFolderList a.btn.buttonCompose > i {color:inherit; text-shadow:none;}
+#rl-app #V-MailFolderList a.btn.buttonCompose:hover {background-color:#1c4836; filter:none;}
+@media(max-width:600px) {#rl-left {padding-inline:18px;}}
+/* Upstream hides the restore control on desktop, even after folders collapse. */
+html.rl-left-panel-disabled #rl-right .toggleLeft {
+  display:inline-flex !important;
+  align-items:center; justify-content:center;
+  min-width:44px; min-height:44px;
+  color:var(--btn-clr); background:var(--btn-bg-clr);
+}
+.rt-compose-titlebar {display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:var(--folders-selected-bg-color); color:var(--folders-selected-color); font-weight:600;}
+.rt-compose-expand {color:inherit; background:transparent; border:1px solid currentColor; border-radius:6px; min-width:44px; min-height:36px; font-size:22px; cursor:pointer;}
+.rt-compose-restore {position:fixed; z-index:2999; right:24px; bottom:max(12px,env(safe-area-inset-bottom)); min-height:48px; width:280px; padding:12px 18px; border:1px solid var(--border-color); border-radius:10px 10px 0 0; background:var(--folders-selected-bg-color); color:var(--folders-selected-color); box-shadow:0 4px 24px #0003; font:inherit; text-align:left; cursor:pointer;}
+.rt-compose-restore[hidden] {display:none;}
+.rt-compose-expand:focus-visible,.rt-compose-restore:focus-visible {outline:3px solid var(--input-focus-border-clr); outline-offset:3px;}
+@media(min-width:800px) {
+  #V-PopupsCompose.rt-compose-docked.animate:not(.rt-compose-expanded) {
+    inset:auto 24px max(12px,env(safe-area-inset-bottom)) auto;
+    margin:0; width:min(640px,calc(100vw - 48px)); max-width:calc(100vw - 48px);
+    height:min(720px,calc(100dvh - 48px)); max-height:calc(100dvh - 48px);
+    resize:none; border-radius:12px 12px 0 0;
+  }
+  #V-PopupsCompose.rt-compose-docked.rt-compose-expanded.animate {
+    inset:24px; margin:0 auto; width:calc(100vw - 48px); max-width:1200px;
+    height:calc(100dvh - 48px); max-height:calc(100dvh - 48px); resize:none;
+  }
+  #V-PopupsCompose.rt-compose-docked::backdrop {background:#0002;}
+  #V-PopupsCompose.rt-compose-docked .modal-body {height:auto; flex:1; min-height:0;}
+  #V-PopupsCompose.rt-compose-docked .textAreaParent {min-height:140px;}
+}
+@media(max-width:799px) {
+  .rt-compose-expand {display:none;}
+  .rt-compose-restore {right:12px; width:min(280px,calc(100vw - 24px));}
+}
+@media(prefers-reduced-motion:reduce) {#V-PopupsCompose.rt-compose-docked {transition:opacity .001s linear;}}
+.rt-alias-settings {max-width:760px; padding:16px; line-height:1.6; color:var(--main-color);}
+.rt-alias-settings label {display:block; font-weight:600; margin:12px 0 6px;}
+.rt-alias-settings input,.rt-alias-settings select {display:block; width:min(100%,460px); box-sizing:border-box; min-height:44px; padding:8px 12px; color:var(--main-color); background:var(--input-bg-clr); border:1px solid var(--input-border-clr); border-radius:8px;}
+.rt-alias-settings button {min-height:44px; margin:12px 0; padding:8px 16px; border:1px solid var(--btn-border-clr); border-radius:8px; background:var(--btn-success-bg-clr); color:var(--btn-clr); font:inherit; cursor:pointer;}
+.rt-alias-settings button:disabled {opacity:.65; cursor:default;}
+.rt-alias-settings :focus-visible {outline:3px solid var(--input-focus-border-clr); outline-offset:3px;}
+.rt-alias-card {border:1px solid var(--input-border-clr); border-radius:12px; padding:16px; margin:18px 0; overflow-wrap:anywhere;}
+.rt-alias-card h3 {font-size:1.15rem;}
+.rt-alias-settings [role=status]:not(:empty) {border-left:3px solid var(--input-focus-border-clr); padding:8px 12px;}
+#V-SettingsPane .rt-alias-settings input,
+#V-SettingsPane .rt-alias-settings select {min-height:44px;}
+
+/* Phone layout: retain every native editor control without crowding the body. */
+#rl-app #V-MailMessageList a.btn.buttonCompose,
+#rl-app #V-PopupsCompose header > a.btn-success {
+  color:#faf4e8; background-color:#245943; border-color:#245943; text-shadow:none;
+}
+#rl-app #V-PopupsCompose header > a.btn-success > *,
+#rl-app #V-MailMessageList a.btn.buttonCompose > * {color:inherit; text-shadow:none;}
+@media(max-width:799px) {
+  #rl-app #V-MailFolderList a.btn.buttonCompose {
+    display:flex; width:calc(100% - 16px); max-width:calc(100% - 16px);
+    margin-inline:8px; padding-inline:10px; box-sizing:border-box;
+    justify-content:center; white-space:normal;
+  }
+  #rl-app #V-MailFolderList a.btn.buttonCompose > span {white-space:normal; overflow:visible;}
+  #V-PopupsCompose.rt-compose-docked {
+    height:min(100dvh,var(--rt-compose-visible-height,100dvh));
+    max-height:min(100dvh,var(--rt-compose-visible-height,100dvh));
+    resize:none; display:flex; flex-direction:column;
+  }
+  #V-PopupsCompose.rt-compose-docked:not([open]) {display:none;}
+  #V-PopupsCompose header {background:var(--message-list-toolbar-bg-color); flex:0 0 auto;}
+  #V-PopupsCompose header > a:first-child .hide-mobile,
+  #V-PopupsCompose header > a.button-save .hide-mobile {display:inline;}
+  #V-PopupsCompose .modal-body {height:auto; min-height:0; flex:1 1 auto; overflow:auto;}
+  #V-PopupsCompose .textAreaParent {min-height:200px;}
+  #V-PopupsCompose .squire-toolbar {
+    display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+    flex:0 0 auto; max-width:100%; min-height:48px; padding-block:4px;
+  }
+  #V-PopupsCompose .squire-toolbar .btn-group {flex:0 0 auto; float:none;}
+}
+/* Phone-first inbox polish. Native SnappyMail actions and message rendering remain intact. */
+@media (max-width:799px) {
+  #rl-left {padding:12px 12px max(16px,env(safe-area-inset-bottom));}
+  .rt-brand {grid-template-columns:56px minmax(0,1fr);justify-items:start;align-items:center;gap:12px;padding:8px 8px 16px;}
+  .rt-brand img {width:56px;padding:3px;border-radius:12px;}
+  .rt-brand .rt-appearance {justify-content:flex-start;font-size:12px;gap:4px;}
+  .rt-brand .rt-appearance select {min-height:44px;}
+  #V-MailFolderList .b-folders-system a {min-height:48px;border-radius:24px;padding-inline:16px;}
+  #V-MailFolderList .b-footer::before {display:none;}
+  #V-MailMessageList .inputSearch {min-height:48px;border-radius:24px;padding-inline:18px;font-size:16px;box-shadow:none;}
+  #V-MailMessageList .messageListItem {min-height:84px;padding:10px 8px;border-left-width:3px;align-items:center;line-height:1.5;}
+  #V-MailMessageList .messageListItem > div + div {display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:5px 8px;min-width:0;padding:0 4px;align-items:center;}
+  #V-MailMessageList .messageListItem .senderParent {grid-column:1;grid-row:1;font-size:16px;line-height:1.4;width:auto;min-width:0;}
+  #V-MailMessageList .messageListItem time {grid-column:2 / 4;grid-row:1;font-size:12px;line-height:1.4;margin:0;opacity:1;}
+  #V-MailMessageList .messageListItem .subjectParent {grid-column:1;grid-row:2;width:auto;font-size:14px;line-height:1.5;min-width:0;}
+  #V-MailMessageList .messageListItem .flagParent {grid-column:3;grid-row:2;min-width:28px;min-height:32px;display:flex;align-items:center;justify-content:center;}
+  #V-MailMessageList .messageListItem .attachmentParent {grid-column:2;grid-row:2;}
+  #V-MailMessageList .messageListItem .threads-len {grid-column:2;grid-row:3;justify-self:end;}
+  #V-MailMessageList .messageListItem .sizeParent {display:none;}
+  #V-MailMessageList .messageListItem .messageCheckbox {min-width:44px;padding:0;text-align:center;}
+  #V-MailMessageList .messageListItem.unseen {border-left-color:var(--link-color);}
+  #rl-app #V-MailMessageList a.btn.buttonCompose {position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:100;width:60px;height:60px;border-radius:20px;margin:0;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 5px 16px #0003;font-size:22px;}
+  #rl-app #V-MailMessageList .hasChecked a.btn.buttonCompose {display:none;}
+  #V-MailMessageList .messageListPlace {padding-bottom:90px;}
+  #V-MailMessageView .subject {font-size:23px;line-height:1.35;}
+  #V-MailMessageView .btn-toolbar .btn {min-width:44px;min-height:44px;}
+  #V-MailMessageView .messageView::after {opacity:.025;}
+  #V-PopupsCompose input,#V-PopupsCompose textarea {font-size:16px;}
+}
