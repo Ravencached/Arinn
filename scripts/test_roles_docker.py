@@ -91,6 +91,15 @@ def run(command, **kwargs):
     return result.stdout
 
 
+def read_storage_bind(image, content, relative):
+    # Read the actual host bind source through a separate unprivileged helper.
+    # A Linux runner need not be allowed to traverse SFTPGo's private user homes.
+    return run(['docker', 'run', '--rm', '--network', 'none', '--read-only',
+                '--user', '1000:1000', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
+                '--mount', 'type=bind,source=' + str(content) + ',target=/source,readonly',
+                '--entrypoint', 'cat', image, '/source/' + relative])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workdir', type=Path, required=True, help='New private directory outside the checkout')
@@ -148,7 +157,19 @@ def main():
                 compose_path.write_text(json.dumps(compose))
             run(cmd + ['config', '--quiet'])
             with (work / 'build.log').open('ab') as log:
-                subprocess.run(cmd + ['up', '-d', '--build', '--wait', '--wait-timeout', '180'],
+                subprocess.run(cmd + ['build'], stdout=log, stderr=log, check=True)
+                if role == 'storage':
+                    storage_image = settings['project'] + '-yggdrive'
+                    if os.name != 'nt':
+                        # Only the newly created, empty sandbox directory is
+                        # touched. Production ownership and service UID stay intact.
+                        subprocess.run(['docker', 'run', '--rm', '--network', 'none', '--read-only',
+                            '--user', '0:0', '--cap-drop', 'ALL', '--cap-add', 'CHOWN',
+                            '--security-opt', 'no-new-privileges',
+                            '--mount', 'type=bind,source=' + str(content) + ',target=/source',
+                            '--entrypoint', 'chown', storage_image, '1000:1000', '/source'],
+                            stdout=log, stderr=log, check=True)
+                subprocess.run(cmd + ['up', '-d', '--wait', '--wait-timeout', '180'],
                                stdout=log, stderr=log, check=True)
             listing = json.loads(run(cmd + ['config', '--format', 'json']))
             for service in listing['services'].values():
@@ -190,7 +211,7 @@ def main():
         # actual authenticated client API. No host share or production path used.
         run(commands['storage'] + ['exec', '-T', 'yggdrive', 'sh', '-c',
             'mkdir -p /srv/sftpgo/data/Users/alice; printf synthetic-canary > /srv/sftpgo/data/Users/alice/canary.txt'])
-        check((content / 'data/Users/alice/canary.txt').read_bytes() == b'synthetic-canary',
+        check(read_storage_bind(storage_image, content, 'data/Users/alice/canary.txt') == b'synthetic-canary',
               'Drive bytes live on storage-role bind directory')
         browsers = {}
         for name in ['alice', 'bob']:
@@ -198,7 +219,7 @@ def main():
         payload = secrets.token_bytes(1024 * 1024)
         check(browser_upload(browsers['alice'], offset + 8080, payload) == 201,
               'Browser uploads 1 MiB through production client binding')
-        check((content / 'data/Users/alice/web-upload.bin').read_bytes() == payload,
+        check(read_storage_bind(storage_image, content, 'data/Users/alice/web-upload.bin') == payload,
               'Browser upload bytes match storage-host bind content')
         check(browser_get(browsers['alice'], offset + 8080, '/web/client/files?path=/web-upload.bin') == (200, payload),
               'Browser downloads uploaded 1 MiB unchanged')

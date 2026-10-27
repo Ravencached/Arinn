@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — experimental, prepared for initial publication
+## 0.1.0 — experimental source on main, not yet tagged
 
 - Arinn suite with optional Ratataskr mail, Aring calendar and YggDrive storage.
 - Independent home/storage Compose roles and common management commands.

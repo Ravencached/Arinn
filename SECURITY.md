@@ -9,8 +9,8 @@ own support policies. Keep them updated independently.
 ## Report a vulnerability privately
 
 Use [GitHub private vulnerability reporting](https://github.com/Ravencached/Arinn/security/advisories/new).
-The repository maintainer must enable this feature before the public launch;
-the link alone does not enable it. If no private report form is available, open
+Private reporting is enabled for `Ravencached/Arinn`. Maintainers of forks must
+enable it separately; the link alone does not enable it. If no private report form is available, open
 an issue asking for a private contact method **without technical exploit details,
 secrets, logs or affected personal data**. Do not disclose a vulnerability in a
 public issue or pull request before coordinated review.

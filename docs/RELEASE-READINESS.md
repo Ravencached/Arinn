@@ -1,7 +1,8 @@
 # Arinn 0.1.0 experimental: publication review
 
 Prepared 2026-10-27 for `Ravencached/Arinn`. This is a source release candidate.
-It has not been pushed, announced or tagged as a stable release.
+The initial source was approved and pushed on 2026-10-27. It has not been tagged
+as a stable release. Hosted status is recorded by [GitHub Actions](https://github.com/Ravencached/Arinn/actions/workflows/ci.yml).
 
 ## Completed locally
 
@@ -9,7 +10,7 @@ It has not been pushed, announced or tagged as a stable release.
 |---|---|
 | Branding and scope | Arinn README, experimental version/changelog, supported-versus-advanced paths and deployment limits |
 | Licensing | Full texts, original-code/art/documentation scope, retained third-party notices and per-file map |
-| Security reporting | Root `SECURITY.md`, private-report URL and explicit support boundaries; remote enablement remains required |
+| Security reporting | Root `SECURITY.md`, private-report URL and explicit support boundaries; private reporting enabled on GitHub |
 | Contribution guidance | Root `CONTRIBUTING.md`, pull-request template, license/provenance and synthetic-fixture requirements |
 | Workflow | actionlint 1.7.12 passed; all three external actions pinned to resolved official v6 commits; read-only permissions and no persisted checkout credentials |
 | Source regression checks | 14 tests passed, including deleted-secret detection, shallow-history rejection and deployment-role separation |
@@ -20,17 +21,18 @@ It has not been pushed, announced or tagged as a stable release.
 | Publication history | Clean Arinn checkout prepared with one initial commit, public GitHub noreply identity and no imported app/handoff history |
 
 The workflow's application commands were exercised locally, including the actual
-Linux containers. They have not yet run on GitHub-hosted runners. The privacy
+Linux containers. Hosted results are available in Actions; the Linux sandbox
+initializes its new bind directory for the service UID and verifies its bytes
+using a separate unprivileged reader. The privacy
 rules and local known-value comparisons are useful evidence, not a guarantee
 against every possible identifying detail or unknown secret format.
 
 ## Pending publication and GitHub settings
 
-Owner approval is required before making this source publicly downloadable.
-After approval, create/push the repository, enable private vulnerability
-reporting, secret scanning/push protection, dependency alerts and appropriate
-branch/Actions protections. Verify the private-report form works and wait for
-the hosted checks to pass before tagging the first experimental release.
+Owner approval was received and the source is public. Private vulnerability
+reporting, secret scanning/push protection, dependency alerts, read-only workflow
+permissions and approval for external fork workflows are enabled. Require the
+three hosted checks on `main` and wait for success before tagging an experimental release.
 See [publishing instructions](PUBLISHING.md) for the exact target and settings.
 
 ## Still deployment-specific

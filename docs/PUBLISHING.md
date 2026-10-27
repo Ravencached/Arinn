@@ -1,8 +1,10 @@
 # Publishing Arinn
 
 Target: `Ravencached/Arinn`, public source repository. Initial version:
-**0.1.0 experimental**. This document describes preparation and required remote
-settings; it does not claim that a repository has been published or configured.
+**0.1.0 experimental**. Initial source publication was approved and pushed on
+2026-10-27. Private reporting, secret scanning/push protection, dependency alerts
+and restricted Actions permissions are enabled. This document retains the
+repeatable publication procedure and branch/release requirements.
 
 ## Prepared source
 
